@@ -1,7 +1,8 @@
 
 
 module avalon_adapter
-    #(parameter REGS         = 1;
+    #(parameter REGS         = 1,
+      parameter POWEROF2REGS = $clog2(REGS) ** 2,
       parameter ADDRESSWIDTH = $clog2(REGS))(
     input        logic                      clk,
     input        logic                      reset,
@@ -35,8 +36,8 @@ module avalon_adapter
     // combinational logic block
     always_comb begin
         // default values
-        core_io.write_en = '{REGS{1'b0}};
-        core_io.read_en  = '{REGS{1'b0}};
+        core_io.write_en = '{POWEROF2REGS{1'b0}};
+        core_io.read_en  = '{POWEROF2REGS{1'b0}};
 
 
         // generate device register read/write signals

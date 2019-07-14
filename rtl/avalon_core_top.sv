@@ -29,7 +29,7 @@ module avalon_core_top(
     // couldn't be set inside the peripheral only outside of it.
     // If anybody is aware of a way to do this feel free to change
     // the bus to an interface.
-    core_io    #(.REGS(3))  core_io();
+    core_io  #(.REGS(3))  core_io();
 
 
     // instantiate the bus adapter

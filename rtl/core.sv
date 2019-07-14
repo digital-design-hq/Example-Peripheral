@@ -4,7 +4,9 @@
 interface core_io;
 
     // this must be set on a per core basis
-    parameter REGS = 1;
+    parameter REGS         = 1;
+    parameter POWEROF2REGS = $clog2(REGS) ** 2;
+    parameter ADDRESSWIDTH = $clog2(REGS);
 
 
     // clocks and resets
@@ -14,9 +16,9 @@ interface core_io;
 
     // device register lines
     logic  [31:0]  data_in;
-    logic  [31:0]  data_out  [REGS-1:0];
-    logic          write_en  [REGS-1:0];
-    logic          read_en   [REGS-1:0];
+    logic  [31:0]  data_out  [POWEROF2REGS-1:0];
+    logic          write_en  [POWEROF2REGS-1:0];
+    logic          read_en   [POWEROF2REGS-1:0];
 
 
     // interrupt request lines
@@ -55,6 +57,8 @@ module core(
 
     // this is a known value in this case because it is inside the core, so we preset it correctly.
     parameter REGS             = 3;
+    parameter POWEROF2REGS     = $clog2(REGS) ** 2;
+    parameter ADDRESSWIDTH     = $clog2(REGS);
 
     // reg maps
     parameter COUNT_REG        = 0;
@@ -124,7 +128,7 @@ module core(
     // combinational logic block
     always_comb begin
         // default logic values
-        io.data_out         = '{REGS{32'b0}};                // set all output lines to zero
+        io.data_out         = '{POWEROF2REGS{32'b0}};        // set all output lines to zero
         counter_irq_next    = 1'b0;                          // do not signal an interrupt
         counter_next        = counter;                       // retain old count value
         counter_en_next     = counter_en;                    // retain old data
