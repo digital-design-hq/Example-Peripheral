@@ -9,7 +9,7 @@
 //       2      [0]         count < 1000       status     read only     (1 for yes,    0 for no)
 
 
-module avalon_core_top(
+module peripheral_top(
     input   logic          clk,
     input   logic          reset,
     input   logic          read,
@@ -29,12 +29,12 @@ module avalon_core_top(
     // couldn't be set inside the peripheral only outside of it.
     // If anybody is aware of a way to do this feel free to change
     // the bus to an interface.
-    core_io  #(.REGS(3))  core_io();
+    peripheral_register_interface  #(.REGS(3))  reg_io();
 
 
-    // instantiate the bus adapter
-    avalon_adapter #(.REGS(3))
-    avalon_adapter(
+    // instantiate the register adapter
+    avalon_register_adapter #(.REGS(3))
+    avalon_register_adapter(
         .clk,
         .reset,
         .read,
@@ -43,17 +43,16 @@ module avalon_core_top(
         .data_in,
         .read_valid,
         .data_out,
-        .irq,
-        .core_io
+        .reg_io
     );
 
 
-    // instantiate the core
-    core
-    core(
-        .io       (core_io)
+    // instantiate the peripheral core
+    peripheral_core
+    peripheral_core(
+        .reg_io,
+        .irq_out  (irq)
     );
-
 
 endmodule
 
