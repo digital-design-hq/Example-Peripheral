@@ -2,14 +2,14 @@
 
 module peripheral_core(
     peripheral_register_interface.in  reg_io,
+    peripheral_memory_interface.in    mem_io,
     output  logic                     irq_out
     );
 
     // this is a known value in this case because it is inside the core, so we preset it correctly.
     parameter REGS             = 3;
     parameter POWEROF2REGS     = $clog2(REGS) ** 2;
-    parameter ADDRESSWIDTH     = $clog2(REGS);
-
+    
     // reg maps
     parameter COUNT_REG        = 0;
     parameter CONFIG_REG       = 1;
@@ -126,6 +126,17 @@ module peripheral_core(
         irq_out                                                       = irq;
 
     end
+
+
+    single_port_pemory  #(.DATAWIDTH(32), .DATADEPTH(256))
+    single_port_pemory(
+        .clk       (mem_io.clk),
+        .write_en  (mem_io.write_en),
+        .data_in   (mem_io.data_in),
+        .address   (mem_io.address),
+        .data_out  (mem_io.data_out)
+    );
+
 
 endmodule
 

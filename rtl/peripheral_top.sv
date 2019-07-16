@@ -12,12 +12,21 @@
 module peripheral_top(
     input   logic          clk,
     input   logic          reset,
-    input   logic          read,
-    input   logic          write,
-    input   logic  [1:0]   address,
-    input   logic  [31:0]  data_in,
-    output  logic          read_valid,
-    output  logic  [31:0]  data_out,
+
+    input   logic          reg_read,
+    input   logic          reg_write,
+    input   logic  [1:0]   reg_address,
+    input   logic  [31:0]  reg_data_in,
+    output  logic          reg_read_valid,
+    output  logic  [31:0]  reg_data_out,
+
+    input   logic          mem_read,
+    input   logic          mem_write,
+    input   logic  [7:0]   mem_address,
+    input   logic  [31:0]  mem_data_in,
+    output  logic          mem_read_valid,
+    output  logic  [31:0]  mem_data_out,
+
     output  logic          irq
     );
 
@@ -29,7 +38,8 @@ module peripheral_top(
     // couldn't be set inside the peripheral only outside of it.
     // If anybody is aware of a way to do this feel free to change
     // the bus to an interface.
-    peripheral_register_interface  #(.REGS(3))  reg_io();
+    peripheral_register_interface  #(.REGS(3))                         reg_io();
+    peripheral_memory_interface    #(.DATAWIDTH(32), .DATADEPTH(256))  mem_io();
 
 
     // instantiate the register adapter
@@ -37,13 +47,28 @@ module peripheral_top(
     avalon_register_adapter(
         .clk,
         .reset,
-        .read,
-        .write,
-        .address,
-        .data_in,
-        .read_valid,
-        .data_out,
+        .read        (reg_read),
+        .write       (reg_write),
+        .address     (reg_address),
+        .data_in     (reg_data_in),
+        .read_valid  (reg_read_valid),
+        .data_out    (reg_data_out),
         .reg_io
+    );
+
+
+    // instantiate the memory adapter
+    avalon_memory_adapter #(.DATAWIDTH(32), .DATADEPTH(256), .LATENCY(1))
+    avalon_memory_adapter(
+        .clk,
+        .reset,
+        .read        (mem_read),
+        .write       (mem_write),
+        .address     (mem_address),
+        .data_in     (mem_data_in),
+        .read_valid  (mem_read_valid),
+        .data_out    (mem_data_out),
+        .mem_io
     );
 
 
@@ -51,6 +76,7 @@ module peripheral_top(
     peripheral_core
     peripheral_core(
         .reg_io,
+        .mem_io,
         .irq_out  (irq)
     );
 
