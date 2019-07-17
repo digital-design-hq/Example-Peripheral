@@ -43,7 +43,7 @@ module peripheral_top(
 
 
     // instantiate the register adapter
-    avalon_register_adapter #(.REGS(3))
+    avalon_register_adapter #(.REGS(3), .LATENCY(1))
     avalon_register_adapter(
         .clk,
         .reset,

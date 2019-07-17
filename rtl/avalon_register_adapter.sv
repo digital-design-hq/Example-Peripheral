@@ -1,9 +1,11 @@
 
 
 module avalon_register_adapter
-    #(parameter REGS         = 1,
-      parameter POWEROF2REGS = $clog2(REGS) ** 2,
-      parameter ADDRESSWIDTH = $clog2(REGS))(
+    #(parameter REGS           = 1,
+      parameter LATENCY        = 1,
+      parameter ADDRESSLATENCY = ((LATENCY == 1) || (LATENCY == 2)) ? 1 : LATENCY - 1,
+      parameter POWEROF2REGS   = $clog2(REGS) ** 2,
+      parameter ADDRESSWIDTH   = $clog2(REGS))(
     input                              logic                      clk,
     input                              logic                      reset,
     input                              logic                      read,
@@ -16,18 +18,38 @@ module avalon_register_adapter
     );
 
 
+    // internal registers
+    logic  [LATENCY:0]                             read_reg;
+    logic  [LATENCY:0]                             write_reg;
+    logic  [ADDRESSLATENCY:0][ADDRESSWIDTH-1:0]    address_reg;
+    logic  [LATENCY:0][31:0]                       data_in_reg;
+    logic  [LATENCY:0][31:0]                       data_out_reg;
+
+
     // internal logic signals
-    logic  [ADDRESSWIDTH-1:0]  reg_address; // registered address from the previous cycle
+    logic  [LATENCY-1:0]                           read_reg_next;
+    logic  [LATENCY-1:0]                           write_reg_next;
+    logic  [ADDRESSLATENCY-1:0][ADDRESSWIDTH-1:0]  address_reg_next;
+    logic  [LATENCY-1:0][31:0]                     data_in_reg_next;
+    logic  [LATENCY-1:0][31:0]                     data_out_reg_next;
+    logic                                          read_en;
+    logic                                          write_en;
 
 
     // register block
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
-            reg_address <= {ADDRESSWIDTH{1'b0}};
-            read_valid  <= 1'b0;
+            read_reg[LATENCY:1]           <= {LATENCY{1'b0}};
+            write_reg[LATENCY:1]          <= {LATENCY{1'b0}};
+            address_reg[ADDRESSLATENCY:1] <= {ADDRESSLATENCY*ADDRESSWIDTH{1'b0}};
+            data_in_reg[LATENCY:1]        <= {LATENCY*32{1'b0}};
+            data_out_reg[LATENCY:1]       <= {LATENCY*32{1'b0}};
         end else begin
-            reg_address <= address;
-            read_valid  <= read;
+            read_reg[LATENCY:1]           <= read_reg_next;
+            write_reg[LATENCY:1]          <= write_reg_next;
+            address_reg[ADDRESSLATENCY:1] <= address_reg_next;
+            data_in_reg[LATENCY:1]        <= data_in_reg_next;
+            data_out_reg[LATENCY:1]       <= data_out_reg_next;
         end
     end
 
@@ -40,18 +62,40 @@ module avalon_register_adapter
 
 
         // generate device register read/write signals
-        if(write) reg_io.write_en[address] = 1'b1;
-        if(read)  reg_io.read_en[address]  = 1'b1;
+        if(write_en) reg_io.write_en[address_reg[LATENCY-1]] = 1'b1;
+        if(read_en)  reg_io.read_en[address_reg[LATENCY-1]]  = 1'b1;
 
 
-        // assign data_out to device register at registered address
-        data_out = reg_io.data_out[reg_address];
+        // control signal assignments
+        read_reg[0]       = read;
+        write_reg[0]      = write;
+        read_reg_next     = {read_reg[LATENCY-1:0]};
+        write_reg_next    = {write_reg[LATENCY-1:0]};
+        read_en           = read_reg[LATENCY-1];
+        write_en          = write_reg[LATENCY-1];
+        read_valid        = read_reg[LATENCY];
+
+
+        // address assignments
+        address_reg[0]    = address;
+        address_reg_next  = address_reg[ADDRESSLATENCY-1:0];
+
+
+        // data in assignments
+        data_in_reg[0]    = data_in;
+        data_in_reg_next  = data_in_reg[LATENCY-1:0];
+        reg_io.data_in    = data_in_reg[LATENCY-1];
+
+
+        // data out assignments
+        data_out_reg[0]   = reg_io.data_out[address_reg[ADDRESSLATENCY]];
+        data_out_reg_next = data_out_reg[LATENCY-1:0];
+        data_out          = data_out_reg[LATENCY-1];
 
 
         // other assignments
         reg_io.clk     = clk;
         reg_io.reset   = reset;
-        reg_io.data_in = data_in;
     end
 
 

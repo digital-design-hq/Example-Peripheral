@@ -23,7 +23,18 @@ add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/ava
 add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/data_in
 add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/read_valid
 add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/data_out
-add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/reg_address
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/read_reg
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/write_reg
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/address_reg
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/data_in_reg
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/data_out_reg
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/read_reg_next
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/write_reg_next
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/address_reg_next
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/data_in_reg_next
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/data_out_reg_next
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/read_en
+add wave -noupdate -expand -group avalon_register_adapter /peripheral_tb/dut/avalon_register_adapter/write_en
 add wave -noupdate -expand -group avalon_memory_adapter /peripheral_tb/dut/avalon_memory_adapter/clk
 add wave -noupdate -expand -group avalon_memory_adapter /peripheral_tb/dut/avalon_memory_adapter/reset
 add wave -noupdate -expand -group avalon_memory_adapter /peripheral_tb/dut/avalon_memory_adapter/read
@@ -54,10 +65,10 @@ add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripher
 add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/data_out
 add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/address_reg
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {4010510000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {255400 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 512
-configure wave -valuecolwidth 211
+configure wave -valuecolwidth 600
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -70,4 +81,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {4211036600 ps}
+WaveRestoreZoom {117100 ps} {357 ns}
