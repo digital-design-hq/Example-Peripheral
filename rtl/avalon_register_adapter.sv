@@ -36,8 +36,7 @@ module avalon_register_adapter
     logic                                          write_en;
 
 
-    // register block
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clk or posedge reset) begin : register_logic
         if(reset) begin
             read_reg[LATENCY:1]           <= {LATENCY{1'b0}};
             write_reg[LATENCY:1]          <= {LATENCY{1'b0}};
@@ -54,8 +53,7 @@ module avalon_register_adapter
     end
 
 
-    // combinational logic block
-    always_comb begin
+    always_comb begin : combinational_logic
         // default values
         reg_io.write_en = '{POWEROF2REGS{1'b0}};
         reg_io.read_en  = '{POWEROF2REGS{1'b0}};

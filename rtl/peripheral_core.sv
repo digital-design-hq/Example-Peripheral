@@ -53,8 +53,7 @@ module peripheral_core(
     logic          irq_next;
 
 
-    // register block
-    always_ff @(posedge reg_io.clk or posedge reg_io.reset) begin
+    always_ff @(posedge reg_io.clk or posedge reg_io.reset) begin : register_logic
         if(reg_io.reset) begin
             // reset conditions
             counter        <= 32'b0;
@@ -75,8 +74,7 @@ module peripheral_core(
     end
 
 
-    // combinational logic block
-    always_comb begin
+    always_comb begin : combinational_logic
         // default logic values
         reg_io.data_out     = '{POWEROF2REGS{32'b0}};            // set all output lines to zero
         irq_next            = 1'b0;                              // do not signal an interrupt

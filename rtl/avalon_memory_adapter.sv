@@ -28,8 +28,7 @@ module avalon_memory_adapter
     logic  [LATENCY:0]   valid_next;
 
 
-    // register block
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clk or posedge reset) begin : register_logic
         if(reset)
             valid <= {LATENCY{1'b0}};
         else begin
@@ -38,8 +37,7 @@ module avalon_memory_adapter
     end
 
 
-    // combinational logic block
-    always_comb begin
+    always_comb begin : combinational_logic
         mem_io.clk      = clk;
         mem_io.reset    = reset;
         mem_io.read_en  = read;

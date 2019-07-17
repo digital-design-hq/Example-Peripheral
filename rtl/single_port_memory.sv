@@ -16,14 +16,14 @@ module single_port_pemory
 
 
     // initialize to all 0's for simulation
-    initial begin : INIT
+    initial begin : init_logic
         integer i;
         for(i = 0; i < DATADEPTH; i++)
             memory_block[i] = {DATAWIDTH{1'b0}};
     end
 
 
-    always_ff @(posedge clk) begin
+    always_ff @(posedge clk) begin : memory_block_logic
         if(write_en)
             memory_block[address] <= data_in;
 

@@ -71,7 +71,7 @@ module peripheral_tb();
 
 
     // extra logic needed to do the testing
-    always_comb begin
+    always_comb begin : test_logic
         // default
         reg_read  = 1'b0;
         reg_write = 1'b0;
