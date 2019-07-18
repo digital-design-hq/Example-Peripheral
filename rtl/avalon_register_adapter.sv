@@ -3,7 +3,8 @@
 module avalon_register_adapter
     #(parameter REGS           = 1,
       parameter LATENCY        = 1,
-      parameter ADDRESSLATENCY = ((LATENCY == 1) || (LATENCY == 2)) ? 1 : LATENCY - 1,
+      parameter ADDRESSLATENCY = (LATENCY == 1) ? 1 : LATENCY - 1,
+      parameter DATAOUTLATENCY = (LATENCY == 1) ? 0 : 1,
       parameter POWEROF2REGS   = $clog2(REGS) ** 2,
       parameter ADDRESSWIDTH   = $clog2(REGS))(
     input                              logic                      clk,
@@ -18,12 +19,12 @@ module avalon_register_adapter
     );
 
 
-    // internal registers
+    // internal registers (the first element of all of these isn't registered it is a pass through combinational signal)
     logic  [LATENCY:0]                             read_reg;
     logic  [LATENCY:0]                             write_reg;
     logic  [ADDRESSLATENCY:0][ADDRESSWIDTH-1:0]    address_reg;
     logic  [LATENCY:0][31:0]                       data_in_reg;
-    logic  [LATENCY:0][31:0]                       data_out_reg;
+    logic  [1:0][31:0]                             data_out_reg;
 
 
     // internal logic signals
@@ -31,7 +32,7 @@ module avalon_register_adapter
     logic  [LATENCY-1:0]                           write_reg_next;
     logic  [ADDRESSLATENCY-1:0][ADDRESSWIDTH-1:0]  address_reg_next;
     logic  [LATENCY-1:0][31:0]                     data_in_reg_next;
-    logic  [LATENCY-1:0][31:0]                     data_out_reg_next;
+    logic  [31:0]                                  data_out_reg_next;
     logic                                          read_en;
     logic                                          write_en;
 
@@ -42,13 +43,13 @@ module avalon_register_adapter
             write_reg[LATENCY:1]          <= {LATENCY{1'b0}};
             address_reg[ADDRESSLATENCY:1] <= {ADDRESSLATENCY*ADDRESSWIDTH{1'b0}};
             data_in_reg[LATENCY:1]        <= {LATENCY*32{1'b0}};
-            data_out_reg[LATENCY:1]       <= {LATENCY*32{1'b0}};
+            data_out_reg[1]               <= {32{1'b0}};
         end else begin
             read_reg[LATENCY:1]           <= read_reg_next;
             write_reg[LATENCY:1]          <= write_reg_next;
             address_reg[ADDRESSLATENCY:1] <= address_reg_next;
             data_in_reg[LATENCY:1]        <= data_in_reg_next;
-            data_out_reg[LATENCY:1]       <= data_out_reg_next;
+            data_out_reg[1]               <= data_out_reg_next;
         end
     end
 
@@ -67,8 +68,8 @@ module avalon_register_adapter
         // control signal assignments
         read_reg[0]       = read;
         write_reg[0]      = write;
-        read_reg_next     = {read_reg[LATENCY-1:0]};
-        write_reg_next    = {write_reg[LATENCY-1:0]};
+        read_reg_next     = read_reg[LATENCY-1:0];
+        write_reg_next    = write_reg[LATENCY-1:0];
         read_en           = read_reg[LATENCY-1];
         write_en          = write_reg[LATENCY-1];
         read_valid        = read_reg[LATENCY];
@@ -87,8 +88,8 @@ module avalon_register_adapter
 
         // data out assignments
         data_out_reg[0]   = reg_io.data_out[address_reg[ADDRESSLATENCY]];
-        data_out_reg_next = data_out_reg[LATENCY-1:0];
-        data_out          = data_out_reg[LATENCY-1];
+        data_out_reg_next = data_out_reg[0];
+        data_out          = data_out_reg[DATAOUTLATENCY];
 
 
         // other assignments
