@@ -1,14 +1,5 @@
 
 
-// register map
-// address //   bits    //  registers       // type   //  access type  // value meaning
-//       0      [31:0]      counter            data       read/write
-//       1      [0]         count enable       config     read/write    (1 for enable, 0 for disable)
-//       1      [1]         count direction    config     read/write    (1 for up,     0 for down)
-//       1      [2]         count int enable   config     read/write    (1 for enable, 0 for disable)
-//       2      [0]         count < 1000       status     read only     (1 for yes,    0 for no)
-
-
 module peripheral_top(
     input   logic          clk,
     input   logic          reset,
@@ -38,8 +29,9 @@ module peripheral_top(
     // couldn't be set inside the peripheral only outside of it.
     // If anybody is aware of a way to do this feel free to change
     // the bus to an interface.
-    peripheral_register_interface  #(.REGS(3))                         reg_io();
-    peripheral_memory_interface    #(.DATAWIDTH(32), .DATADEPTH(256))  mem_io();
+    peripheral_register_interface         #(.REGS(3))                         reg_adapter_io();
+    peripheral_native_register_interface                                      reg_io();
+    peripheral_memory_interface           #(.DATAWIDTH(32), .DATADEPTH(256))  mem_io();
 
 
     // instantiate the register adapter
@@ -53,7 +45,7 @@ module peripheral_top(
         .data_in     (reg_data_in),
         .read_valid  (reg_read_valid),
         .data_out    (reg_data_out),
-        .reg_io
+        .reg_io      (reg_adapter_io)
     );
 
 
@@ -69,6 +61,14 @@ module peripheral_top(
         .read_valid  (mem_read_valid),
         .data_out    (mem_data_out),
         .mem_io
+    );
+
+
+    // instantiage the register map
+    peripheral_register_map
+    peripheral_register_map(
+        .reg_adapter_io,
+        .reg_io
     );
 
 

@@ -46,29 +46,29 @@ add wave -noupdate -expand -group avalon_memory_adapter /peripheral_tb/dut/avalo
 add wave -noupdate -expand -group avalon_memory_adapter /peripheral_tb/dut/avalon_memory_adapter/valid
 add wave -noupdate -expand -group avalon_memory_adapter /peripheral_tb/dut/avalon_memory_adapter/valid_next
 add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/irq_out
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_en
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_dir
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_ire
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_lt_1k
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_en
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_dir
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_ire
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_lt_1k
 add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/irq
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_next
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_en_next
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_dir_next
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_ire_next
-add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/counter_lt_1k_next
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_next
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_en_next
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_dir_next
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_ire_next
+add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/count_lt_1k_next
 add wave -noupdate -expand -group peripheral_core /peripheral_tb/dut/peripheral_core/irq_next
-add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/clk
-add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/write_en
-add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/data_in
-add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/address
-add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/data_out
-add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_pemory/address_reg
+add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_memory/clk
+add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_memory/write_en
+add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_memory/data_in
+add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_memory/address
+add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_memory/data_out
+add wave -noupdate -expand -group single_port_memory /peripheral_tb/dut/peripheral_core/single_port_memory/address_reg
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {255400 ps} 0}
+WaveRestoreCursors {{Cursor 1} {0 ps} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 512
-configure wave -valuecolwidth 600
+configure wave -namecolwidth 402
+configure wave -valuecolwidth 239
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -81,4 +81,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {117100 ps} {357 ns}
+WaveRestoreZoom {0 ps} {6820771100 ps}

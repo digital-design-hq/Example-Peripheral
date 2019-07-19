@@ -1,4 +1,4 @@
-module single_port_pemory
+module single_port_memory
     #(parameter DATAWIDTH    = 8,
       parameter DATADEPTH    = 1024,
       parameter ADDRESSWIDTH = $clog2(DATADEPTH))(
