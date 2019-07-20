@@ -143,6 +143,22 @@ module peripheral_tb();
         // reset the system
         hardware_reset();
 
+        // write 256 words to the peripheral memory
+        i = 1024;
+
+        repeat(256) begin
+            write_data(i, i);
+            i = i + 4;
+        end
+
+        // read all 256 words from the peripheral memory
+        i = 1024;
+
+        repeat(256) begin
+            read_data(i);
+            i = i + 4;
+        end
+
         // write counter
         write_data(32'd0, 32'd67);
 
@@ -175,22 +191,6 @@ module peripheral_tb();
 
         // wait some time
         repeat(200000) @(posedge clk);
-
-        // write 256 words to the peripheral memory
-        i = 1024;
-
-        repeat(256) begin
-            write_data(i, i);
-            i = i + 4;
-        end
-
-        // read all 256 words from the peripheral memory
-        i = 1024;
-
-        repeat(256) begin
-            read_data(i);
-            i = i + 4;
-        end
 
         $stop;
      end
