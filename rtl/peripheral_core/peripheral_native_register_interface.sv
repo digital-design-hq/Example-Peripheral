@@ -11,22 +11,22 @@ interface peripheral_native_register_interface;
 
     // device register inputs
     logic  [31:0]  count_in;
-    logic          count_en_in;
-    logic          count_dir_in;
-    logic          count_ire_in;
+    logic          en_in;
+    logic          dir_in;
+    logic          ire_in;
 
 
     // device register outputs
     logic  [31:0]  count_out;
-    logic          count_en_out;
-    logic          count_dir_out;
-    logic          count_ire_out;
-    logic          count_lt_1k_out;  // count is less than 1000 status output (read only)
+    logic          en_out;
+    logic          dir_out;
+    logic          ire_out;
+    logic          lt_1k_out;  // count is less than 1000 status output (read only)
 
 
     // device register control signals
-    logic          count_we;         // counter register write enable
-    logic          count_config_we;  // counter config register write enable
+    logic          count_we;   // counter register write enable
+    logic          config_we;  // counter config register write enable
 
 
     // modport list (used to define signal direction for specific situations)
@@ -34,16 +34,16 @@ interface peripheral_native_register_interface;
         input   clk,
         input   reset,
         input   count_we,
-        input   count_config_we,
+        input   config_we,
         input   count_in,
-        input   count_en_in,
-        input   count_dir_in,
-        input   count_ire_in,
+        input   en_in,
+        input   dir_in,
+        input   ire_in,
         output  count_out,
-        output  count_en_out,
-        output  count_dir_out,
-        output  count_ire_out,
-        output  count_lt_1k_out
+        output  en_out,
+        output  dir_out,
+        output  ire_out,
+        output  lt_1k_out
     );
 
 
@@ -51,16 +51,16 @@ interface peripheral_native_register_interface;
         output  clk,
         output  reset,
         output  count_we,
-        output  count_config_we,
+        output  config_we,
         output  count_in,
-        output  count_en_in,
-        output  count_dir_in,
-        output  count_ire_in,
+        output  en_in,
+        output  dir_in,
+        output  ire_in,
         input   count_out,
-        input   count_en_out,
-        input   count_dir_out,
-        input   count_ire_out,
-        input   count_lt_1k_out
+        input   en_out,
+        input   dir_out,
+        input   ire_out,
+        input   lt_1k_out
     );
 
 

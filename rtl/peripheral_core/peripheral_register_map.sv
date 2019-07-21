@@ -38,17 +38,17 @@ module peripheral_register_map(
 
 
         // config register mapping
-        reg_io.count_config_we           = reg_adapter_io.write_en[1];    // write enable map
-        reg_io.count_en_in               = reg_adapter_io.data_in [0];    // input map
-        reg_io.count_dir_in              = reg_adapter_io.data_in [1];    // input map
-        reg_io.count_ire_in              = reg_adapter_io.data_in [2];    // input map
-        reg_adapter_io.data_out[1][0]    = reg_io.count_en_out;           // output map
-        reg_adapter_io.data_out[1][1]    = reg_io.count_dir_out;          // output map
-        reg_adapter_io.data_out[1][2]    = reg_io.count_ire_out;          // output map
+        reg_io.config_we                 = reg_adapter_io.write_en[1];    // write enable map
+        reg_io.en_in                     = reg_adapter_io.data_in [0];    // input map
+        reg_io.dir_in                    = reg_adapter_io.data_in [1];    // input map
+        reg_io.ire_in                    = reg_adapter_io.data_in [2];    // input map
+        reg_adapter_io.data_out[1][0]    = reg_io.en_out;                 // output map
+        reg_adapter_io.data_out[1][1]    = reg_io.dir_out;                // output map
+        reg_adapter_io.data_out[1][2]    = reg_io.ire_out;                // output map
 
 
         // status register mapping
-        reg_adapter_io.data_out[2][0]    = reg_io.count_lt_1k_out;        // output map
+        reg_adapter_io.data_out[2][0]    = reg_io.lt_1k_out;              // output map
     end
 
 
