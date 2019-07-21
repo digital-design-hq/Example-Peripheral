@@ -4,7 +4,6 @@ interface peripheral_memory_interface;
 
     // this must be set on a per core basis
     parameter DATAWIDTH    = 1;
-    parameter DATADEPTH    = 1;
     parameter ADDRESSWIDTH = $clog2(DATADEPTH);
 
 

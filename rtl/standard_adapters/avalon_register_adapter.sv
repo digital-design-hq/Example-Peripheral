@@ -1,7 +1,8 @@
 
 
 module avalon_register_adapter
-    #(parameter REGS           = 1,
+    #(paramater BUSWIDTH       = 32,
+      parameter REGS           = 1,
       parameter LATENCY        = 1,
       parameter ADDRESSLATENCY = (LATENCY == 1) ? 1 : LATENCY - 1,
       parameter DATAOUTLATENCY = (LATENCY == 1) ? 0 : 1,
@@ -12,9 +13,9 @@ module avalon_register_adapter
     input                              logic                      read,
     input                              logic                      write,
     input                              logic  [ADDRESSWIDTH-1:0]  address,
-    input                              logic  [31:0]              data_in,
+    input                              logic  [BUSWIDTH-1:0]      data_in,
     output                             logic                      read_valid,
-    output                             logic  [31:0]              data_out,
+    output                             logic  [BUSWIDTH-1:0]      data_out,
     peripheral_register_interface.out                             reg_io
     );
 
@@ -23,16 +24,16 @@ module avalon_register_adapter
     logic  [LATENCY:0]                             read_reg;
     logic  [LATENCY:0]                             write_reg;
     logic  [ADDRESSLATENCY:0][ADDRESSWIDTH-1:0]    address_reg;
-    logic  [LATENCY:0][31:0]                       data_in_reg;
-    logic  [1:0][31:0]                             data_out_reg;
+    logic  [LATENCY:0][BUSWIDTH-1:0]               data_in_reg;
+    logic  [1:0][BUSWIDTH-1:0]                     data_out_reg;
 
 
     // internal logic signals
     logic  [LATENCY-1:0]                           read_reg_next;
     logic  [LATENCY-1:0]                           write_reg_next;
     logic  [ADDRESSLATENCY-1:0][ADDRESSWIDTH-1:0]  address_reg_next;
-    logic  [LATENCY-1:0][31:0]                     data_in_reg_next;
-    logic  [31:0]                                  data_out_reg_next;
+    logic  [LATENCY-1:0][BUSWIDTH-1:0]             data_in_reg_next;
+    logic  [BUSWIDTH-1:0]                          data_out_reg_next;
     logic                                          read_en;
     logic                                          write_en;
 
@@ -42,8 +43,8 @@ module avalon_register_adapter
             read_reg[LATENCY:1]           <= {LATENCY{1'b0}};
             write_reg[LATENCY:1]          <= {LATENCY{1'b0}};
             address_reg[ADDRESSLATENCY:1] <= {ADDRESSLATENCY*ADDRESSWIDTH{1'b0}};
-            data_in_reg[LATENCY:1]        <= {LATENCY*32{1'b0}};
-            data_out_reg[1]               <= {32{1'b0}};
+            data_in_reg[LATENCY:1]        <= {LATENCY*BUSWIDTH{1'b0}};
+            data_out_reg[1]               <= {BUSWIDTH{1'b0}};
         end else begin
             read_reg[LATENCY:1]           <= read_reg_next;
             write_reg[LATENCY:1]          <= write_reg_next;

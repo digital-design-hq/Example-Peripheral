@@ -77,7 +77,7 @@ module peripheral_top(
     peripheral_core(
         .reg_io,
         .mem_io,
-        .irq_out  (irq)
+        .irq_out     (irq)
     );
 
 endmodule

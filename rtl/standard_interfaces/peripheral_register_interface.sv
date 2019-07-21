@@ -3,6 +3,7 @@
 interface peripheral_register_interface;
 
     // this must be set on a per core basis
+    parameter BUSWIDTH     = 32;
     parameter REGS         = 1;
     parameter POWEROF2REGS = $clog2(REGS) ** 2;
     parameter ADDRESSWIDTH = $clog2(REGS);
@@ -14,10 +15,10 @@ interface peripheral_register_interface;
 
 
     // device register lines
-    logic  [31:0]  data_in;
-    logic  [31:0]  data_out  [POWEROF2REGS-1:0];
-    logic          write_en  [POWEROF2REGS-1:0];
-    logic          read_en   [POWEROF2REGS-1:0];
+    logic  [BUSWIDTH-1:0]  data_in;
+    logic  [BUSWIDTH-1:0]  data_out  [POWEROF2REGS-1:0];
+    logic                  write_en  [POWEROF2REGS-1:0];
+    logic                  read_en   [POWEROF2REGS-1:0];
 
 
     // modport list (used to define signal direction for specific situations)

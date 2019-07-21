@@ -8,7 +8,8 @@
 
 
 module avalon_memory_adapter
-    #(parameter DATAWIDTH    = 1,
+    #(paramater BUSWIDTH     = 32,
+      parameter DATAWIDTH    = 1,
       parameter DATADEPTH    = 1,
       parameter LATENCY      = 1,
       parameter ADDRESSWIDTH = $clog2(DATADEPTH))(
@@ -17,9 +18,9 @@ module avalon_memory_adapter
     input                            logic                      read,
     input                            logic                      write,
     input                            logic  [ADDRESSWIDTH-1:0]  address,
-    input                            logic  [31:0]              data_in,
+    input                            logic  [BUSWIDTH-1:0]      data_in,
     output                           logic                      read_valid,
-    output                           logic  [31:0]              data_out,
+    output                           logic  [BUSWIDTH-1:0]      data_out,
     peripheral_memory_interface.out                             mem_io
     );
 
@@ -44,7 +45,7 @@ module avalon_memory_adapter
         mem_io.write_en = write;
         mem_io.address  = address;
         mem_io.data_in  = data_in[DATAWIDTH-1:0];
-        data_out        = {{32-DATAWIDTH{1'b0}}, mem_io.data_out};
+        data_out        = {{BUSWIDTH-DATAWIDTH{1'b0}}, mem_io.data_out};
         read_valid      = valid[LATENCY-1];
 
         valid_next      = {valid[LATENCY-1:0], read};
