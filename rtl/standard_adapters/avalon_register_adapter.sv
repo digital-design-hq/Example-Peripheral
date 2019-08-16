@@ -1,7 +1,7 @@
 
 
 module avalon_register_adapter
-    #(paramater BUSWIDTH       = 32,
+    #(parameter BUSWIDTH       = 32,
       parameter REGS           = 1,
       parameter LATENCY        = 1,
       parameter ADDRESSLATENCY = (LATENCY == 1) ? 1 : LATENCY - 1,

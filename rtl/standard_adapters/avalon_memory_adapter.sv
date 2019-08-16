@@ -8,7 +8,7 @@
 
 
 module avalon_memory_adapter
-    #(paramater BUSWIDTH     = 32,
+    #(parameter BUSWIDTH     = 32,
       parameter DATAWIDTH    = 1,
       parameter DATADEPTH    = 1,
       parameter LATENCY      = 1,

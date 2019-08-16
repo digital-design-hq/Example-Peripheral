@@ -101,13 +101,28 @@ module peripheral_core(
 
 
     // instantiate a single port memory
-    single_port_memory  #(.DATAWIDTH(32), .DATADEPTH(256))
-    single_port_memory(
+    simple_single_port_memory  #(.DATAWIDTH(32), .DATADEPTH(256))
+    simple_single_port_memory(
         .clk       (mem_io.clk),
         .write_en  (mem_io.write_en),
         .data_in   (mem_io.data_in),
         .address   (mem_io.address),
         .data_out  (mem_io.data_out)
+    );
+
+
+    // instantiate a single clock fifo
+    single_clock_fifo  #(.DATAWIDTH(8), .DATADEPTH(256))
+    single_clock_fifo(
+        .clk        (reg_io.clk),
+        .reset      (reg_io.reset),
+        .write_en   (reg_io.fifo_we),
+        .read_req   (reg_io.fifo_re),
+        .data_in    (reg_io.fifo_data_in),
+        .data_out   (reg_io.fifo_data_out),
+        .word_count (reg_io.fifo_word_count),
+        .empty      (reg_io.fifo_empty),
+        .full       (reg_io.fifo_full)
     );
 
 

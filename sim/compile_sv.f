@@ -7,7 +7,9 @@
 ../rtl/standard_interfaces/peripheral_memory_interface.sv
 ../rtl/standard_adapters/avalon_register_adapter.sv
 ../rtl/standard_adapters/avalon_memory_adapter.sv
-../rtl/standard_part_library/single_port_memory.sv
+../rtl/standard_part_library/simple_single_port_memory.sv
+../rtl/standard_part_library/simple_dual_port_memory.sv
+../rtl/standard_part_library/single_clock_fifo.sv
 ../rtl/peripheral_core/peripheral_native_register_interface.sv
 ../rtl/peripheral_core/peripheral_register_map.sv
 ../rtl/peripheral_core/peripheral_core.sv

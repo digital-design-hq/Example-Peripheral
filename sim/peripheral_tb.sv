@@ -1,8 +1,9 @@
 `timescale 1ns / 100ps
 
 
-// this is just a simple testbench so you can visually inspect the waveforms of the peripheral, to run it fire up modelsim, change
-// your directory to the sim folder of this project, then type "do run.do" without the quotes in the transcript window and hit enter.
+// this is just a simple testbench so you can visually inspect the waveforms of the peripheral, to run it fire up modelsim, click file,
+// click change directory and set the directory to the sim folder of this project, then type "do run.do" without the quotes in the
+// transcript window and hit enter.
 
 
 module peripheral_tb();
@@ -20,12 +21,8 @@ module peripheral_tb();
     logic          reset;
     logic          reg_read;
     logic          reg_write;
-    logic  [1:0]   reg_address;
-    logic  [31:0]  reg_data_in;
     logic          mem_read;
     logic          mem_write;
-    logic  [1:0]   mem_address;
-    logic  [31:0]  mem_data_in;
 
     // output wires
     logic          reg_read_valid;
@@ -56,7 +53,7 @@ module peripheral_tb();
         .reset,
         .reg_read,
         .reg_write,
-        .reg_address     (address[3:2]),
+        .reg_address     (address[4:2]),
         .reg_data_in     (data_in),
         .reg_read_valid,
         .reg_data_out,
@@ -80,7 +77,7 @@ module peripheral_tb();
 
 
         // read/write signal generation
-        if(address >= 0 && address <= 15) begin
+        if(address >= 0 && address <= 31) begin
             if(read)  reg_read  = 1'b1;
             if(write) reg_write = 1'b1;
         end else if(address >= 1024 && address <= 2047) begin
@@ -157,6 +154,22 @@ module peripheral_tb();
         repeat(256) begin
             read_data(i);
             i = i + 4;
+        end
+
+        // write 256 words to the fifo
+        i = 0;
+
+        repeat(256) begin
+            write_data(32'd12, i);
+            i++;
+        end
+
+        // read all 256 words from the fifo
+        i = 0;
+
+        repeat(256) begin
+            read_data(32'd16);
+            i++;
         end
 
         // write counter

@@ -6,7 +6,7 @@ module peripheral_top(
 
     input   logic          reg_read,
     input   logic          reg_write,
-    input   logic  [1:0]   reg_address,
+    input   logic  [2:0]   reg_address,
     input   logic  [31:0]  reg_data_in,
     output  logic          reg_read_valid,
     output  logic  [31:0]  reg_data_out,
@@ -29,13 +29,13 @@ module peripheral_top(
     // couldn't be set inside the peripheral only outside of it.
     // If anybody is aware of a way to do this feel free to change
     // the bus to an interface.
-    peripheral_register_interface         #(.REGS(3))                         reg_adapter_io();
+    peripheral_register_interface         #(.REGS(5))                         reg_adapter_io();
     peripheral_native_register_interface                                      reg_io();
     peripheral_memory_interface           #(.DATAWIDTH(32), .DATADEPTH(256))  mem_io();
 
 
     // instantiate the register adapter
-    avalon_register_adapter #(.REGS(3), .LATENCY(1))
+    avalon_register_adapter #(.REGS(5), .LATENCY(1))
     avalon_register_adapter(
         .clk,
         .reset,
