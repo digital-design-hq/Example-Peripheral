@@ -1,6 +1,6 @@
 
 
-module peripheral_top(
+module avalon_example_peripheral(
     input   logic          clk,
     input   logic          reset,
 
@@ -29,9 +29,9 @@ module peripheral_top(
     // couldn't be set inside the peripheral only outside of it.
     // If anybody is aware of a way to do this feel free to change
     // the bus to an interface.
-    peripheral_register_interface         #(.REGS(5))                         reg_adapter_io();
-    peripheral_native_register_interface                                      reg_io();
-    peripheral_memory_interface           #(.DATAWIDTH(32), .DATADEPTH(256))  mem_io();
+    register_interface         #(.REGS(5))                         reg_adapter_io();
+    native_register_interface                                      reg_io();
+    memory_interface           #(.DATAWIDTH(32), .DATADEPTH(256))  mem_io();
 
 
     // instantiate the register adapter
@@ -64,17 +64,17 @@ module peripheral_top(
     );
 
 
-    // instantiage the register map
-    peripheral_register_map
-    peripheral_register_map(
+    // instantiate the register map
+    register_map
+    register_map(
         .reg_adapter_io,
         .reg_io
     );
 
 
-    // instantiate the peripheral core
-    peripheral_core
-    peripheral_core(
+    // instantiate the native core
+    native_core
+    native_core(
         .reg_io,
         .mem_io,
         .irq_out     (irq)

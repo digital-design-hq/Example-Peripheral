@@ -14,9 +14,9 @@
 //       4      [7:0]       fifo data out      data       read only
 
 
-module peripheral_register_map(
-    peripheral_register_interface.in          reg_adapter_io,
-    peripheral_native_register_interface.out  reg_io
+module register_map(
+    register_interface.in          reg_adapter_io,
+    native_register_interface.out  reg_io
     );
 
 

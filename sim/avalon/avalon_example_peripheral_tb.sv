@@ -2,11 +2,11 @@
 
 
 // this is just a simple testbench so you can visually inspect the waveforms of the peripheral, to run it fire up modelsim, click file,
-// click change directory and set the directory to the sim folder of this project, then type "do run.do" without the quotes in the
+// click change directory and set the directory to the folder of this testbench file, then type "do run.do" without the quotes in the
 // transcript window and hit enter.
 
 
-module peripheral_tb();
+module avalon_example_peripheral_tb();
 
 
     /*********************************************************************************************************************************************************/
@@ -47,7 +47,7 @@ module peripheral_tb();
     /*********************************************************************************************************************************************************/
 
 
-    peripheral_top
+    avalon_example_peripheral
     dut(
         .clk,
         .reset,

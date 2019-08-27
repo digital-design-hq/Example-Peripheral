@@ -1,9 +1,9 @@
 
 
-module peripheral_core(
-    peripheral_native_register_interface.in  reg_io,
-    peripheral_memory_interface.in           mem_io,
-    output  logic                            irq_out
+module native_core(
+    native_register_interface.in  reg_io,
+    memory_interface.in           mem_io,
+    output  logic                 irq_out
     );
 
 

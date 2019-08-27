@@ -1,7 +1,7 @@
 
 
 // a new version of this would be written for each peripheral core
-interface peripheral_native_register_interface;
+interface native_register_interface;
 
 
     // clocks and resets
